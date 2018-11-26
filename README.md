@@ -1,1 +1,1 @@
-# python3-learning
+# some small tasks for operations analysis

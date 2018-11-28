@@ -2,11 +2,14 @@
 
 ## 1. channel analysis
 this task is to count how many customers came from each channel monthly and how many bookings came from each channel monthly.
+
 It used some basic text data cleaning to deal with source classfication.
 
 ## 2. create heatmap based on zip codes
-this tasks using zipcode from registration data
+this tasks used zipcode from registration data
+
 I used folium to create heatmap
+
 I also used Tableau to create this heatmap which is more beautiful.
 
 ## 3.free services performance

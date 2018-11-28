@@ -1,4 +1,4 @@
-# some small tasks for operations analysis based on registration data and bookings data
+# some tasks for operations analysis based on registration data and bookings data
 
 ## 1. channel analysis
 this task is to count how many customers came from each channel monthly and how many bookings came from each channel monthly.

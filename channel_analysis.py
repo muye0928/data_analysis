@@ -1,4 +1,5 @@
-"""this task is to count how many customers came from each channel monthly/weekly and how many bookings came from each channel monthly/weekly"""
+"""this task is to count how many customers came from each channel monthly/weekly and 
+how many bookings came from each channel monthly/weekly"""
 # import registration data
 import pandas as pd
 df = pd.read_csv("registration.csv")

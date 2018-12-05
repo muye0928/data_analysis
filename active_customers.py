@@ -18,15 +18,28 @@ df2["year-month"] = df2["Date"].apply(lambda x: str(x.year) +"-"+ str(x.month))
 df2 = df2[["Full Name","Date","Status","year-month"]]
 df2 = df2[df2["Status"] == "done"]
 
-#total active and registration customer until this month
-from datetime import datetime
-result["Date"]=pd.to_datetime(result["Date"])
-month = result[result["Date"]<datetime(2018,10,1,0,0)]
+index_month = pd.date_range('1/1/2017',periods = 24, freq = "M")
+def intersection(lst1, lst2): 
+    return list(set(lst1) & set(lst2))
+book_month =[]
+month_record =[]
+for ym in index_month:
+    month_record.append(ym)
+    monthdata = result[result["Date"] <= ym]
+    bookmonth = df2[df2['Date']<=ym]
+    #bookmonth data count
+    book_month.append(len(intersection(bookmonth["Full Name"],monthdata["full name"])))
+result_ym =pd.DataFrame({"month": month_record,"book":book_month})
+result_ym
 
-# book data until this month
-bookmonth = df2[df2["Date"] < datetime(2018, 10, 1, 0, 0)]
-#drop duplicate names
-bookmonth = bookmonth.drop_duplicates(subset = "Full Name")
-
-# The number of True are the number we want
-bookmonth["Full Name"].isin(month["full name"]).value_counts()
+index_week = pd.date_range('7/1/2017',periods = 79, freq = "W")
+book_week =[]
+week_record =[]
+for i in index_week:
+    week_record.append(i)
+    weekdata = result1[result1["Date"] <= i]
+    bookweek = df2[df2['Date']<=i]
+    #bookmonth data count
+    book_week.append(len(intersection(bookweek["Full Name"],weekdata["full name"])))
+result_week =pd.DataFrame({"week": week_record,"book":book_week})
+result_week

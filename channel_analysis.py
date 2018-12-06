@@ -5,7 +5,6 @@ import pandas as pd
 df = pd.read_csv("registration.csv")
 df = df[["Date", "full name", "Source"]]
 df["Date"] = pd.to_datetime(df["Date"])
-df["year-month"] = df["Date"].apply(lambda x: str(x.year) +"-"+ str(x.month))
 
 # data cleaning for source text data
 origin = df["Source"].values
@@ -47,11 +46,11 @@ df['Source'] = list(map(pinterest,df['Source'] ))
 df['Source'] = list(map(event,df['Source'] ))
 
 #load booking data
-df2 = pd.read_csv("bookings1126.csv")
+df2 = pd.read_csv("bookings.csv")
+df2["Full Name"] = df2["First Name"] +" " +df2["Last Name"]
 df2 = df2[["Full Name","Appt Date",'Referral Code','Snailz Discount Code',"Status"]]
 df2["Appt Date"] = pd.to_datetime(df2["Appt Date"])
 df2 = df2[df2["Status"] == "done"]
-df2["year-month"] = df2["Appt Date"].apply(lambda x: str(x.year) +"-"+ str(x.month))
 
 # added people use webcode into the source of website
 webcode = df2[df2["Snailz Discount Code"] =="web10"].drop_duplicates(subset = "Full Name")
@@ -72,6 +71,10 @@ refb.columns = ["full name", "ym"]
 refb = refb.groupby("ym").count()
 refb
 
+onemonth = df[df["year-month"] =="2018-11"].drop_duplicates(subset = "full name")
+onemonth["full name"].isin(webname).value_counts()
+onemonth["full name"].isin(refername).value_counts()
+
 #count weekly registration data
 df['Week/Year'] = df['Date'].apply(lambda x: "%d/%d" % (x.week, x.year))
 sour_fb = df[df["Source"] == "facebook"]
@@ -80,33 +83,27 @@ refb.columns = ["full name", "ym"]
 refb = refb.groupby("ym").count()
 refb
 
-# booking data from different channels monthly
-from collections import defaultdict
+# to determine each bookings' source
+df2["source"] = df2.apply(lambda x :"friend" if x["Full Name"] in refername else "0",axis = 1)
+df2["source"] = df2.apply(lambda x :"website" if x["Full Name"] in webname else x["source"] ,axis = 1)
+source = ["instagram", "google","yelp","facebook","apple","salon","pinterest","event","twitter"]
+for item in source:
+    source_a = df[df["Source"] == item]
+    tmp = set(source_a["full name"])
+    df2["source"] = df2.apply(lambda x: item if x["Full Name"] in tmp else x["source"],axis=1)
+    
+# bookings' source data monthly 
+index_month = pd.date_range('7/1/2017',periods = 24, freq = "M")
+container = list()
+for i in index_month:
+    tmp = df2[(df2["Appt Date"] <= i) &(df2["Appt Date"] >i-1)]
+    container.append(tmp["source"].value_counts().to_frame(i.strftime("%Y-%m"))) 
+result = pd.concat(container, axis=1).fillna(0)
 
-data = defaultdict(list)
-
-index_month = pd.date_range('7/1/2017', periods=24, freq="M")
-
-channel = ["instagram", "google", "yelp", "twitter", "facebook", "pinterest", "apple", "friend", "salon", "website",
-           "event"]
-for c in channel:
-    for i in index_month:
-        tmp = df2[(df2["Appt Date"] <= i + 1) & (df2["Appt Date"] > i)]
-        data[c].append(len(tmp[(tmp[c] == True)]))
-
-pd.DataFrame.from_dict(data)
-
-# booking data from different channel weekly
-# weekly
-from collections import defaultdict
-
-data_week = defaultdict(list)
-
-index_week = pd.date_range('7/1/2017', periods=80, freq="W")
-
-channel = ["instagram", "google", "yelp", "twitter", "facebook", "pinterest", "apple", "friend", "salon", "website",
-           "event"]
-for c in channel:
-    for i in index_week:
-        tmp = df2[(df2["Appt Date"] <= i + 1) & (df2["Appt Date"] > i)]
-        data_week[c].append(len(tmp[(tmp[c] == True)]))
+#bookings'source data weekly
+index_week = pd.date_range('7/1/2017',periods = 80, freq = "W")
+container2 = list()
+for i in index_week:
+    tmp = df2[(df2["Appt Date"] <= i) &(df2["Appt Date"] >i-1)] 
+    container2.append(tmp["source"].value_counts().to_frame(i))
+result2 = pd.concat(container2, axis=1).fillna(0)

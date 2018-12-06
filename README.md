@@ -8,7 +8,7 @@ this tasks used zipcode from registration data
 I used python folium to create heatmap
 I also used Tableau to create heatmap which is more efficient.
 
-## 3.free services performance
+## 3. free services performance
 this task is to measure the free services performance, to find how many people came back and completed bookings and 
 how many people came back no matter their bookings status
 
@@ -23,5 +23,5 @@ and how many people came back based on 2-month code-users and how many people ca
 we count unique customers in the specific period by drop duplicate record( subset = ID)
 we define unique repeat customers are unique customers and booked more than once
 
-## 7.Active booked customers
+## 7. active booked customers
 we define active booked customers are customers who registrated and subscribed and booked at least once.

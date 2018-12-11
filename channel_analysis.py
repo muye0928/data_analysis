@@ -53,16 +53,12 @@ df2["Appt Date"] = pd.to_datetime(df2["Appt Date"])
 df2 = df2[df2["Status"] == "done"]
 
 # added people use webcode into the source of website
-webcode = df2[df2["Snailz Discount Code"] =="web10"].drop_duplicates(subset = "Full Name")
-source_web = df[df["Source"] == "website"]
-webname = webcode["Full Name"]. append(source_web["full name"])
-webname = set(webname)
+webcode = df2[df2["Snailz Discount Code"] =="web10"]
+df["Source"] = df.apply(lambda x: "website" if x["full name"] in webcode["Full Name"] else x["Source"],axis= 1)
 
 # added people who use the refer code into the source of friend
 refer = df2.dropna(subset = ["Referral Code"])
-source_friend = df[df["Source"] == "friend"]
-refername = refer["Full Name"].append(source_friend["full name"])
-refername = set(refername)
+df["Source"] = df.apply(lambda x: "friend" if x["full name"] in refer["Full Name"] else x["Source"],axis= 1)
 
 #count monthly registration data from different channels
 sour_fb = df[df["Source"] == "facebook"]

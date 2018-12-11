@@ -61,15 +61,15 @@ refer = df2.dropna(subset = ["Referral Code"])
 df["Source"] = df.apply(lambda x: "friend" if x["full name"] in refer["Full Name"] else x["Source"],axis= 1)
 
 #count monthly registration data from different channels
-sour_fb = df[df["Source"] == "facebook"]
-refb = sour_fb[["full name", "year-month"]]
-refb.columns = ["full name", "ym"]
-refb = refb.groupby("ym").count()
-refb
-
-onemonth = df[df["year-month"] =="2018-11"].drop_duplicates(subset = "full name")
-onemonth["full name"].isin(webname).value_counts()
-onemonth["full name"].isin(refername).value_counts()
+index_month = pd.date_range('7/1/2017',periods = 24, freq = "M")
+from collections import defaultdict
+data = defaultdict(list)
+channel = ["instagram", "google","yelp","twitter","facebook","pinterest","apple","friend","salon","website","event"]
+for c in channel:
+    for i in index_month:
+        tmp = df[(df["Date"] <= i) &(df["Date"] >i-1)]
+        data[c].append(len(tmp[(tmp["Source"] == c)]))
+pd.DataFrame.from_dict(data)
 
 #count weekly registration data
 df['Week/Year'] = df['Date'].apply(lambda x: "%d/%d" % (x.week, x.year))

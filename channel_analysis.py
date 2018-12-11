@@ -80,9 +80,8 @@ refb = refb.groupby("ym").count()
 refb
 
 # to determine each bookings' source
-df2["source"] = df2.apply(lambda x :"friend" if x["Full Name"] in refername else "0",axis = 1)
-df2["source"] = df2.apply(lambda x :"website" if x["Full Name"] in webname else x["source"] ,axis = 1)
-source = ["instagram", "google","yelp","facebook","apple","salon","pinterest","event","twitter"]
+df2["source"] = df2.apply(lambda x :"0" )
+source = ["instagram", "google","yelp","facebook","apple","salon","pinterest","event","twitter","website","friend"]
 for item in source:
     source_a = df[df["Source"] == item]
     tmp = set(source_a["full name"])

@@ -9,13 +9,11 @@ df["Date"] = pd.to_datetime(df["Date"])
 # data cleaning for source text data
 origin = df["Source"].values
 df["Source"] = [i.replace(" ", "").lower() if type(i) == str else None for i in origin]
-df = df.dropna()
-df = df[~df['Source'].isin(["x"])]
-df = df[~df['Source'].isin(["ad"])]
 df = df.replace("fb", "facebook")
 df = df.replace("ig","instagram")
 df['Source'] = df['Source'].str.replace('[^\w\s]','')
-df=df[~df['Source'].isin(["no"])]
+df = df[~df['Source'].isin(["no"])]
+df["Source"].fillna("No Source", inplace = True) 
 
 def normalize(lst, origin, target):
     for word in lst:
@@ -44,6 +42,7 @@ df['Source'] = list(map(salon,df['Source'] ))
 df['Source'] = list(map(google,df['Source'] ))
 df['Source'] = list(map(pinterest,df['Source'] ))
 df['Source'] = list(map(event,df['Source'] ))
+df = df[~df['Source'].isin(["ad"])]
 
 #load booking data
 df2 = pd.read_csv("bookings.csv")
@@ -54,11 +53,13 @@ df2 = df2[df2["Status"] == "done"]
 
 # added people use webcode into the source of website
 webcode = df2[df2["Snailz Discount Code"] =="web10"]
-df["Source"] = df.apply(lambda x: "website" if x["full name"] in webcode["Full Name"] else x["Source"],axis= 1)
+webname = set(webcode["Full Name"])
+df["Source"] = df.apply(lambda x: "website" if x["full name"] in webname and x["Source"] == "No Source" else x["Source"],axis= 1)
 
 # added people who use the refer code into the source of friend
 refer = df2.dropna(subset = ["Referral Code"])
-df["Source"] = df.apply(lambda x: "friend" if x["full name"] in refer["Full Name"] else x["Source"],axis= 1)
+refername = set(refer["Full Name"])
+df["Source"] = df.apply(lambda x: "friend" if x["full name"] in refername and x["Source"] =="No Source" else x["Source"],axis= 1)
 
 #count monthly registration data from different channels
 index_month = pd.date_range('7/1/2017',periods = 24, freq = "M")
@@ -80,12 +81,16 @@ refb = refb.groupby("ym").count()
 refb
 
 # to determine each bookings' source
-df2["source"] = df2.apply(lambda x :"0" )
+df2.loc[:,'source'] = 'yyy'
 source = ["instagram", "google","yelp","facebook","apple","salon","pinterest","event","twitter","website","friend"]
 for item in source:
     source_a = df[df["Source"] == item]
     tmp = set(source_a["full name"])
     df2["source"] = df2.apply(lambda x: item if x["Full Name"] in tmp else x["source"],axis=1)
+
+# who used referral code and his/ her source cannot classificated in previous channels
+df2["Referral Code"].fillna("no", inplace = True)
+df2["source"] = df2.apply(lambda x: "friend" if x["Referral Code"]!="no" and x["source"] =="yyy" else x["source"],axis =1)
     
 # bookings' source data monthly 
 index_month = pd.date_range('7/1/2017',periods = 24, freq = "M")

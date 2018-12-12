@@ -72,13 +72,16 @@ for c in channel:
         data[c].append(len(tmp[(tmp["Source"] == c)]))
 pd.DataFrame.from_dict(data)
 
-#count weekly registration data
-df['Week/Year'] = df['Date'].apply(lambda x: "%d/%d" % (x.week, x.year))
-sour_fb = df[df["Source"] == "facebook"]
-refb = sour_fb[["full name", "Week/Year"]]
-refb.columns = ["full name", "ym"]
-refb = refb.groupby("ym").count()
-refb
+#registration weekly
+index_week = pd.date_range('7/1/2017',periods = 75, freq = "W")
+from collections import defaultdict
+data = defaultdict(list)
+channel = ["instagram", "google","yelp","twitter","facebook","pinterest","apple","friend","salon","website","event"]
+for c in channel:
+    for i in index_week:
+        tmp = df[(df["Date"] <= i) &(df["Date"] >i-1)]
+        data[c].append(len(tmp[(tmp["Source"] == c)]))
+abc = pd.DataFrame.from_dict(data)
 
 # to determine each bookings' source
 df2.loc[:,'source'] = 'yyy'

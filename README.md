@@ -3,15 +3,6 @@
 ### [channel analysis](https://github.com/muye0928/data_analysis/blob/master/channel_analysis.py)
 - customer acquision cost
 - booking acquision cost
-
-·# to determine each bookings' source
-df2.loc[:,'source'] = 'yyy'
-source = ["instagram", "google","yelp","facebook","apple","salon","pinterest","event","twitter","website","friend"]
-for item in source:
-    source_a = df[df["Source"] == item]
-    tmp = set(source_a["full name"])
-    df2["source"] = df2.apply(lambda x: item if x["Full Name"] in tmp else x["source"],axis=1)·
-
 ### customer analysis
 - [unique customers](https://github.com/muye0928/data_analysis/blob/master/unique_customers.py)
 - [unique repeat customers](https://github.com/muye0928/data_analysis/blob/master/unique_customers.py)

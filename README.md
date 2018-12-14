@@ -13,7 +13,7 @@
 ### coupon analysis
 - [track coupon performance (based on one month and two months)](https://github.com/muye0928/data_analysis/blob/master/track_coupoun.py)
 - [track coupon unique cumulative repeat bookings](https://github.com/muye0928/data_analysis/blob/master/track%20uniqe%20repeat%20bookings.py)
-- free services performance
+- [free services performance](https://github.com/muye0928/data_analysis/blob/master/free_serive_performance.py)
 ### data visualization
 - [customer heatmap](https://github.com/muye0928/data_analysis/blob/master/heatmap.py) (using python and Tableau)
 ![](https://github.com/muye0928/data_analysis/blob/master/heatmap.PNG?raw=true)

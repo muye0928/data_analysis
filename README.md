@@ -17,4 +17,4 @@
 ### data visualization
 - [customer heatmap](https://github.com/muye0928/data_analysis/blob/master/heatmap.py) (using python and Tableau)
 ![](https://github.com/muye0928/data_analysis/blob/master/heatmap.PNG?raw=true)
-![](https://img3.doubanio.com/view/photo/l/public/p2542626383.jpg)
+![](https://img3.doubanio.com/view/photo/l/public/p2542627030.jpg)

@@ -1,0 +1,5 @@
+"""find duplicates record for free mani code"""
+SELECT bookings1217.[Full], bookings1217.[Status], bookings1217.[Full Name], bookings1217.[Appt Date], bookings1217.[Snailz Discount Code]
+FROM bookings1217
+WHERE (((bookings1217.[Full]) In (SELECT [Full] FROM [bookings1217] As Tmp GROUP BY [Full],[Status],[Full Name] HAVING Count(*)>1  And [Status] = [bookings1217].[Status] And [Full Name] = [bookings1217].[Full Name])))
+ORDER BY bookings1217.[Full], bookings1217.[Status], bookings1217.[Full Name];

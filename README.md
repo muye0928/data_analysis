@@ -15,6 +15,5 @@
 - [track coupon unique cumulative repeat bookings](https://github.com/muye0928/data_analysis/blob/master/track%20uniqe%20repeat%20bookings.py)
 - [free services performance](https://github.com/muye0928/data_analysis/blob/master/free_serive_performance.py)
 ### data visualization
-- [customer heatmap](https://github.com/muye0928/data_analysis/blob/master/heatmap.py) (using python and Tableau)
-![](https://github.com/muye0928/data_analysis/blob/master/heatmap.PNG?raw=true)
+- [customer heatmap](https://github.com/muye0928/data_analysis/blob/master/heatmap.py) (using Tableau)
 ![](https://img3.doubanio.com/view/photo/l/public/p2542627030.jpg)

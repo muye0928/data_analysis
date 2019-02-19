@@ -3,3 +3,11 @@ SELECT bookings1217.[Full], bookings1217.[Status], bookings1217.[Full Name], boo
 FROM bookings1217
 WHERE (((bookings1217.[Full]) In (SELECT [Full] FROM [bookings1217] As Tmp GROUP BY [Full],[Status],[Full Name] HAVING Count(*)>1  And [Status] = [bookings1217].[Status] And [Full Name] = [bookings1217].[Full Name])))
 ORDER BY bookings1217.[Full], bookings1217.[Status], bookings1217.[Full Name];
+
+
+"""count how many people went to same salon"
+SELECT bookings0217.[Salon], bookings0217.[Full Name], bookings0217.[repeat status], bookings0217.[Status]
+FROM bookings0217
+WHERE (((bookings0217.Salon) In (SELECT [Salon] FROM [bookings0217] As Tmp GROUP BY [Salon],[Full Name] HAVING Count(*)>1  
+And [Full Name] = [bookings0217].[Full Name])) AND ((bookings0217.[repeat status])>0) AND ((bookings0217.Status)="done"))
+ORDER BY bookings0217.Salon, bookings0217.[Full Name];

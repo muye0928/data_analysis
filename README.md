@@ -8,6 +8,7 @@
 - [unique repeat customers](https://github.com/muye0928/data_analysis/blob/master/unique_customers.py)
 - [average customer spending](https://github.com/muye0928/data_analysis/blob/master/average_customers_spending.py)
 - [active customers](https://github.com/muye0928/data_analysis/blob/master/active_customers.py)
+- [fraud_detection](https://github.com/muye0928/data_analysis/blob/master/fraud_detection.py)
 - focus groups
 - coherent anaylsis
 ### coupon analysis
